@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Optimal Investing Frequency</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Optimal Investing Frequency Calculator</h1>
+    </header>
+    <main>
+      <form id="investment-form">
+        <div class="input-group">
+          <label for="monthly-savings">Monthly Savings ($):</label>
+          <input class= "shadow" type="number" id="monthly-savings" name="monthly_savings" min="1" required>
+        </div>
+        <div class="input-group">
+          <label for="bank-interest-rate">Bank Interest Rate (%):</label>
+          <input class= "shadow" type="number" step="0.01" id="bank-interest-rate" name="bank_interest_rate" min="0" required>
+        </div>
+        <div class="input-group">
+          <label for="expected-return">Expected Return on Investment (%):</label>
+          <input class= "shadow" type="number" step="0.01" id="expected-return" name="expected_return" min="0" required>
+        </div>
+        <div class="input-group">
+          <label for="brokerage-fee">Brokerage Fee ($):</label>
+          <input class= "shadow" type="number" id="brokerage-fee" name="brokerage_fee" min="0" required>
+        </div>
+        <button class = "shadow" type="submit">Calculate</button>
+      </form>
+      <div id="results">
+        <div class="podium">
+          <div class="card" id="card-1">
+            <h2 id="frequency-1">Every </h2>
+            <p id="amount-1">Amount after 10 years: </p>
+          </div>
+          <div class="card highlight" id="card-2">
+            <h2 id="frequency-2">Every </h2>
+            <p id="amount-2">Amount after 10 years: </p>
+          </div>
+          <div class="card" id="card-3">
+            <h2 id="frequency-3">Every </h2>
+            <p id="amount-3">Amount after 10 years: </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
