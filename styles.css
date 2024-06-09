@@ -114,6 +114,7 @@ button:hover, button:focus {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: transform 0.3s;
 }
 
 .card h2,
@@ -140,6 +141,11 @@ button:hover, button:focus {
   height: 70%;
   background-color: #5debd899;
 }
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
 
 @media (max-width: 600px) {
   .podium {
