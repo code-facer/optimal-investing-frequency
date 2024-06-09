@@ -1,4 +1,4 @@
-document.getElementById('investment-form').addEventListener('submit', function(e) {
+document.getElementById('investment-form').addEventListener('submit', function (e) {
   e.preventDefault();
 
   const monthlySavings = parseFloat(document.getElementById('monthly-savings').value);
@@ -7,35 +7,67 @@ document.getElementById('investment-form').addEventListener('submit', function(e
   const brokerageFee = parseFloat(document.getElementById('brokerage-fee').value);
 
   function calculateTotal(investmentFrequency, numberOfYears) {
-    // FV of annuity of monthly savings at banks rate after 1 period
-    savingsAfterInterest = Math.max(monthlySavings*((1+bankInterestRate/12.0)**investmentFrequency - 1)/(bankInterestRate/12) - brokerageFee, 0);
+    // FV of annuity of monthly savings at bank's rate after 1 period
+    let savingsAfterInterest;
+    if (bankInterestRate === 0) {
+      savingsAfterInterest = monthlySavings * investmentFrequency - brokerageFee;
+    } else {
+      savingsAfterInterest = Math.max(monthlySavings * ((1 + bankInterestRate / 12.0) ** investmentFrequency - 1) / (bankInterestRate / 12) - brokerageFee, 0);
+    }
+
     // FV of annuity of savingsAfterInterest at expected return after numberOfYears
-    totalAmount = savingsAfterInterest*((1+expectedReturn)**numberOfYears - 1)/((1+expectedReturn)**(investmentFrequency/12)-1);
+    if (expectedReturn === 0) {
+      return (savingsAfterInterest+brokerageFee) * 12/investmentFrequency * numberOfYears;
+    }
+    const totalAmount = savingsAfterInterest * ((1 + expectedReturn) ** numberOfYears - 1) / ((1 + expectedReturn) ** (investmentFrequency / 12) - 1);
     return totalAmount;
   }
 
-  let results = [];
-
-  for (let i = 1; i <= 12; i++) {
-    results.push({ frequency: i, amount: calculateTotal(i,10) });
+  function formatCurrency(amount) {
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD', // Change currency to USD for dollar sign
+      maximumFractionDigits: 2, // Keep maximum two decimal places
+    });
+    return formatter.format(amount);
   }
 
-  results.sort((a, b) => b.amount - a.amount);
+  function updateResults(results) {
+    results.slice(0, 3).forEach((result, index) => {
+      const frequencyText = result.frequency === 1 ? 'month' : 'months';
+      document.getElementById(`frequency-${index + 1}`).innerText = `Every ${result.frequency} ${frequencyText}`;
+      document.getElementById(`amount-${index + 1}`).innerText = `Amount after a year: ${formatCurrency(result.amount)}`;
+    });
+  }
 
-  document.getElementById('frequency-1').innerText = `Every ${results[1].frequency} months`;
-  document.getElementById('amount-1').innerText = `Amount after 10 years: ${formatter.format(results[1].amount.toFixed(2))}`;
+  function showResults() {
+    const resultsSection = document.getElementById('results');
+    const podium = document.querySelector('.podium');
 
-  document.getElementById('frequency-2').innerText = `Every ${results[0].frequency} months`;
-  document.getElementById('amount-2').innerText = `Amount after 10 years: ${formatter.format(results[0].amount.toFixed(2))}`;
+    resultsSection.style.display = 'block';
+    podium.classList.add('fade-in');
+    resultsSection.scrollIntoView({ behavior: 'smooth' });
+  }
 
-  document.getElementById('frequency-3').innerText = `Every ${results[2].frequency} months`;
-  document.getElementById('amount-3').innerText = `Amount after 10 years: ${formatter.format(results[2].amount.toFixed(2))}`;
+  function calculateAndSortResults() {
+    const results = [];
+    for (let i = 1; i <= 12; i++) {
+      results.push({ frequency: i, amount: calculateTotal(i, 1) });
+    }
+    results.sort((a, b) => b.amount - a.amount);
+    return results;
+  }
 
-  document.getElementById('results').style.display = 'block';
-});
+  function showResults() {
+    const resultsSection = document.getElementById('results');
+    const podium = document.querySelector('.podium');
+  
+    resultsSection.style.display = 'block';
+    podium.classList.add('fade-in');
+    resultsSection.scrollIntoView({ behavior: 'smooth' });
+  }
 
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'AUD',
-  maximumFractionDigits: 0
+  const results = calculateAndSortResults();
+  updateResults(results);
+  showResults();
 });
