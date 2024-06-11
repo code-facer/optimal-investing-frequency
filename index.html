@@ -14,22 +14,29 @@
     <main>
       <form id="investment-form">
         <div class="input-group">
-          <label for="monthly-savings">Monthly Savings ($):</label>
-          <input class= "shadow" type="number" id="monthly-savings" name="monthly_savings" min="1" required>
+          <label for="savings">Savings ($):</label>
+          <div class="input-with-dropdown">
+            <input class="shadow" type="number" id="savings" name="savings" min="1" required>
+            <select class="shadow" id="savings-frequency">
+              <option value="month">Monthly</option>
+              <option value="fortnight">Fortnightly</option>
+              <option value="week">Weekly</option>
+            </select>
+          </div>
         </div>
         <div class="input-group">
           <label for="bank-interest-rate">Bank Interest Rate (%):</label>
-          <input class= "shadow" type="number" step="0.01" id="bank-interest-rate" name="bank_interest_rate" min="0" required>
+          <input class="shadow" type="number" step="0.01" id="bank-interest-rate" name="bank_interest_rate" min="0" required>
         </div>
         <div class="input-group">
-          <label for="expected-return">Expected Return on Investment (%):</label>
-          <input class= "shadow" type="number" step="0.01" id="expected-return" name="expected_return" min="0" required>
+          <label for="expected-return">Expected Annualised Return on Investment (%):</label>
+          <input class="shadow" type="number" step="0.01" id="expected-return" name="expected_return" min="0" required>
         </div>
         <div class="input-group">
           <label for="brokerage-fee">Brokerage Fee ($):</label>
-          <input class= "shadow" type="number" id="brokerage-fee" name="brokerage_fee" min="0" required>
+          <input class="shadow" type="number" id="brokerage-fee" name="brokerage_fee" min="0" required>
         </div>
-        <button class = "shadow" type="submit">Calculate</button>
+        <button class="shadow" type="submit">Calculate</button>
       </form>
       <div id="results">
         <div class="podium">
